@@ -51,7 +51,7 @@ public class TrapCreater : MonoBehaviour
     {
         time = 0;
         trap= Instantiate(prefabTrap, transform.position, prefabTrap.transform.rotation);
-        SetTime();
+        SetTimeInterval();
             
 
     }
@@ -62,13 +62,9 @@ public class TrapCreater : MonoBehaviour
 
         spawnTime = Random.Range(minTime, maxTime);
     }
-    void SetTime()
+    void SetTimeInterval()
     {
-        if(oldAcc == trap.GetComponent<Trap>().acceleration)
-        {
             maxTime =roMaxT / trap.GetComponent<Trap>().acceleration;
             minTime =roMinT / trap.GetComponent<Trap>().acceleration;
-        }
-        
     }
 }
