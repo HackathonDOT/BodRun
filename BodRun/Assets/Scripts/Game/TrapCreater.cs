@@ -5,24 +5,20 @@ using UnityEngine;
 
 public class TrapCreater : MonoBehaviour
 {
-
     public GameObject prefabTrap;
-    public GameObject trap;
-    // Start is called before the first frame update
+    GameObject trap;
 
-    public readonly float roMaxT=5;
+    public readonly float roMaxT = 6;
     public readonly float roMinT = 2;
-    public float maxTime;
-    public float minTime;
-    private float oldAcc;
-    //current time
+    private float maxTime;
+    private float minTime;
     private float time;
 
-    //The time to spawn the object
     private float spawnTime;
 
     void Start()
     {
+        PlayerPrefs.SetFloat("SpawnTime", 0);
         maxTime = roMaxT;
         minTime = roMinT;
         SetRandomTime();
@@ -31,40 +27,46 @@ public class TrapCreater : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        //Counts up
         time += Time.deltaTime;
         
-        //Check if its the right time to spawn the object
         if (time >= spawnTime)
         {
             SpawnObject();
-            oldAcc = trap.GetComponent<Trap>().acceleration;
             SetRandomTime();
         }
-        
-
     }
 
-    //Spawns the object and resets the time
     void SpawnObject()
     {
         time = 0;
-        trap= Instantiate(prefabTrap, transform.position, prefabTrap.transform.rotation);
+        trap = Instantiate(prefabTrap, transform.position, prefabTrap.transform.rotation);
+        
         SetTimeInterval();
-            
-
     }
 
-    //Sets the random time between minTime and maxTime
     void SetRandomTime()
     {
+        float oldSpawnTime = PlayerPrefs.GetFloat("SpawnTime");
+        float distance = 2 / PlayerPrefs.GetFloat("Acceleration");
+        do
+        {
+            Debug.Log("aa");
+            
+            spawnTime = Random.Range(minTime, maxTime);
+            Debug.Log("fff     " + Mathf.Abs(oldSpawnTime - spawnTime));
+        } while (Mathf.Abs(oldSpawnTime - spawnTime) <= distance);
+        PlayerPrefs.SetFloat("SpawnTime", spawnTime);
+        Debug.Log("oldSpawnTime    " + oldSpawnTime);
+        Debug.Log("distance   " + distance);
+        Debug.Log("spawnTime    " + spawnTime);
+        Debug.Log("heasap    " + Mathf.Abs(oldSpawnTime - spawnTime));
 
-        spawnTime = Random.Range(minTime, maxTime);
+
     }
+
     void SetTimeInterval()
     {
-            maxTime =roMaxT / trap.GetComponent<Trap>().acceleration;
-            minTime =roMinT / trap.GetComponent<Trap>().acceleration;
+        maxTime = roMaxT / trap.GetComponent<Trap>().acceleration;
+        minTime = roMinT / trap.GetComponent<Trap>().acceleration;
     }
 }
