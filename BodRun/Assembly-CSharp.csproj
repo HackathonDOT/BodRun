@@ -62,6 +62,7 @@
     <Compile Include="Assets\Scripts\Game\Player.cs" />
     <Compile Include="Assets\Scripts\Game\TrapCreater.cs" />
     <Compile Include="Assets\Scripts\Game\GameOverPanelController.cs" />
+    <Compile Include="Assets\Scripts\Game\LoopingBackground.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

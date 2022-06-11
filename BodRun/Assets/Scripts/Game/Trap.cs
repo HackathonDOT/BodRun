@@ -13,6 +13,7 @@ public class Trap : MonoBehaviour
 
     void Start()
     {
+        PlayerPrefs.SetFloat("Speed", speed);
         p = GameObject.Find("Player").GetComponent<Player>();
         StartCoroutine(trapMove());
     }
@@ -20,6 +21,11 @@ public class Trap : MonoBehaviour
     private void Update()
     {
         acceleration = PlayerPrefs.GetFloat("Acceleration");
+
+        if (!p.hp)
+        {
+            StopAllCoroutines();
+        }
     }
 
     private IEnumerator trapMove()

@@ -7,6 +7,15 @@ using UnityEngine.SceneManagement;
 public class GameOverPanelController : MonoBehaviour
 {
     public TextMeshProUGUI bestScoreText;
+    AudioSource gameMusic;
+
+
+    private void Start()
+    {
+        gameMusic = GameObject.Find("GameMusic").GetComponent<AudioSource>();
+    }
+
+
 
     private void Update()
     {
@@ -30,6 +39,18 @@ public class GameOverPanelController : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
         Time.timeScale = 1;
+    }
+
+    public void MusicOpenOrClose()
+    {
+        if (gameMusic.isPlaying)
+        {
+            gameMusic.Stop();
+        }
+        else
+        {
+            gameMusic.Play();
+        }
     }
 
     public void QuitGame()

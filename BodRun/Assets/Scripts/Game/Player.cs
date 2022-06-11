@@ -8,11 +8,12 @@ public class Player : MonoBehaviour
     public bool hp = true;
     public float score;
 
+    public AudioSource completionAudio;
+    public AudioSource movedAudio;
+
     void Start()
     {
         transform.position = new Vector3(0, 0);
-
-        //PlayerPrefs.SetFloat("BestScore", 0);
     }
 
     void Update()
@@ -28,10 +29,12 @@ public class Player : MonoBehaviour
             BestScoreCalculater();
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
+                movedAudio.Play();
                 transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y + 1.5f, 0f, 3f));
             }
             if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
+                movedAudio.Play();
                 transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y - 1.5f, 0f, 3f));
             }
             if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
@@ -58,8 +61,12 @@ public class Player : MonoBehaviour
     private void ScoreCounter()
     {
         float acceleration = PlayerPrefs.GetFloat("Acceleration");
-        score += 1;
         acceleration += 0.00005f;
+        score += Mathf.Round(1 * acceleration);
+        if(score % 1000 == 0)
+        {
+            completionAudio.Play();
+        }
         PlayerPrefs.SetFloat("Acceleration", acceleration);
 
     }
